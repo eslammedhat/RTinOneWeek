@@ -12,3 +12,6 @@ set(RT_SRC_FILES
 
 # add the executable
 add_executable(rt.exe ${RT_SRC_FILES})
+
+
+install(TARGETS rt.exe)
