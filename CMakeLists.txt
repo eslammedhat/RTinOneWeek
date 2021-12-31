@@ -4,14 +4,19 @@ cmake_minimum_required(VERSION 3.10)
 project(RayTracingOneWeek)
 
 
-message(STATUS "hello $CMAKE_CURRENT_SOURCE_DIR")
+message(STATUS "current cmake src dir: ${CMAKE_CURRENT_SOURCE_DIR}")
+
 
 set(RT_SRC_FILES 
-    ./src/main.cpp
+    "./src/main.cpp"
+    "./src/Vec3.cpp"
+    "./src/Color.cpp"
 )
 
-# add the executable
-add_executable(rt.exe ${RT_SRC_FILES})
+add_executable(rt ${RT_SRC_FILES})
 
+target_include_directories( rt PUBLIC
+    "./src/"
+)
 
-install(TARGETS rt.exe)
+install(TARGETS rt)
