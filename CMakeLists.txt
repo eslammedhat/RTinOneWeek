@@ -11,6 +11,7 @@ set(RT_SRC_FILES
     "./src/main.cpp"
     "./src/Vec3.cpp"
     "./src/Color.cpp"
+    "./src/Ray.cpp"
 )
 
 add_executable(rt ${RT_SRC_FILES})
