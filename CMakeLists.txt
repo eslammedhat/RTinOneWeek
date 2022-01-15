@@ -4,10 +4,13 @@ cmake_minimum_required(VERSION 3.10)
 project(RayTracingOneWeek)
 
 
+
+
 message(STATUS "current cmake src dir: ${CMAKE_CURRENT_SOURCE_DIR}")
 
 
-set(RT_SRC_FILES 
+set(RT_SRC_FILES
+    "./src/ParameterHandler.cpp"
     "./src/main.cpp"
     "./src/Vec3.cpp"
     "./src/Color.cpp"
@@ -20,4 +23,10 @@ target_include_directories( rt PUBLIC
     "./src/"
 )
 
-install(TARGETS rt)
+
+# Destination Path.
+set(DESTINATION_PATH ".")
+
+install(TARGETS rt
+        DESTINATION DESTINATION_PATH
+)
