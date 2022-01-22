@@ -63,6 +63,7 @@ public:
     bool isAspcetRatioLocked() const;
 
     ErrorType parseParametrs(uint32_t argc, const char* const argv[]);
+
 };
 
 

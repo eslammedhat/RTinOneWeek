@@ -16,15 +16,37 @@ const char* PROGRAM_DESCRIPTION = "Ray Tracer";
 //constexpr const char* PROGRAM_VERSION_MINOR = "";
 //constexpr const char* PROGRAM_VERSION_PATCH = "";
 
-
-
+//----------------------------------------------------------------
+/**
+* Brief: find the roots of the equation:
+*       t^2 * (b*b) + 2*t*b*oc + oc^2 - r^2 = 0
+*       where:
+*           t -> variable
+*           b -> vec3 direction of ray
+*           oc -> oc = A - C
+*           A -> ray's origin
+*           C -> sphere's center
+*       and return true if any roots were found
+*/
+bool hit_sphere(const Point3& center, double radius, const Ray& r) {
+    Vec3 oc = r.origin() - center;
+    auto a = dot(r.direction(), r.direction());
+    auto b = 2.0 * dot(oc, r.direction());
+    auto c = dot(oc, oc) - radius * radius;
+    auto discriminant = b * b - 4 * a * c;
+    return (discriminant > 0);
+}
+//----------------------------------------------------------------
 Color ray_color(const Ray& r) {
+    if (hit_sphere(Point3(0, 0, -1), 0.5, r))
+        //return std::move(Color(1, 0, 0));
+        return Color(1, 0, 0);
     Vec3 unit_direction = unit_vector(r.direction());
     auto t = 0.5 * (unit_direction.y() + 1.0);
+    //return std::move((1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0));
     return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }
-
-
+//----------------------------------------------------------------
 int main(int argc, char *argv[]) {
 
     ParameterHandler _ph;
@@ -35,7 +57,6 @@ int main(int argc, char *argv[]) {
     else if (err == ParameterHandler::ErrorType::ERROR_HELP) {
         return EXIT_SUCCESS;
     }
-
 
     // Image
     const auto aspect_ratio = _ph.getImageSpectRatio();
