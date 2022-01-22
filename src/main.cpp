@@ -38,12 +38,11 @@ bool hit_sphere(const Point3& center, double radius, const Ray& r) {
 }
 //----------------------------------------------------------------
 Color ray_color(const Ray& r) {
-    if (hit_sphere(Point3(0, 0, -1), 0.5, r))
-        //return std::move(Color(1, 0, 0));
+    if (hit_sphere(Point3(0, 0, -1), 0.5, r)) {
         return Color(1, 0, 0);
+    }
     Vec3 unit_direction = unit_vector(r.direction());
     auto t = 0.5 * (unit_direction.y() + 1.0);
-    //return std::move((1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0));
     return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }
 //----------------------------------------------------------------
@@ -63,10 +62,6 @@ int main(int argc, char *argv[]) {
     const auto image_width = _ph.getImageWidth();
     const auto image_height = _ph.getImageHeight();
     const auto outputImage = _ph.getOutputImage();
-
-    //const std::shared_ptr<std::ofstream> outputImage = std::make_shared<std::ofstream>();
-    //outputImage->open("" + std::string(m_outputImagePath));
-    //std::ofstream *outputImage = &()
 
     // Camera
     auto viewport_height = 2.0;

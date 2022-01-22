@@ -74,11 +74,11 @@ bool ParameterHandler::isAspcetRatioLocked() const {
 }
 //----------------------------------------------------------------
 ParameterHandler::ErrorType ParameterHandler::parseParametrs(uint32_t argc, const char* const argv[]) {
-    if (argc == 0) {
+    if (argc < 2) {
         return ErrorType::ERROR_OK;
     }
 
-    for (uint32_t arg = 1; arg < argc; arg++) {
+    for (uint32_t arg = 1; arg < argc - 1; arg++) {
         std::string argument(argv[arg]);
         if ((argument == "-h") || (argument == "--help")) {
             printHelp();
