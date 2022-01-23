@@ -26,23 +26,31 @@ const char* PROGRAM_DESCRIPTION = "Ray Tracer";
 *           oc -> oc = A - C
 *           A -> ray's origin
 *           C -> sphere's center
-*       and return true if any roots were found
+*       and return value of t
 */
-bool hit_sphere(const Point3& center, double radius, const Ray& r) {
+double hit_sphere(const Point3& center, double radius, const Ray& r) {
     Vec3 oc = r.origin() - center;
     auto a = dot(r.direction(), r.direction());
     auto b = 2.0 * dot(oc, r.direction());
     auto c = dot(oc, oc) - radius * radius;
     auto discriminant = b * b - 4 * a * c;
-    return (discriminant > 0);
+    // we won't worry about -ve value of t for now
+    if(discriminant < 0) {
+        return -1.0;
+    } else {
+        return (-b - sqrt(discriminant) ) / (2.0*a);
+    }
 }
 //----------------------------------------------------------------
 Color ray_color(const Ray& r) {
-    if (hit_sphere(Point3(0, 0, -1), 0.5, r)) {
-        return Color(1, 0, 0);
+    auto c = Point3(0, 0, -1);
+    auto t = hit_sphere(c, 0.5, r);
+    if (t > 0.0) {
+        auto N = unit_vector(r.at(t) - c);
+        return 0.5*Color(N.x()+1, N.y()+1, N.z()+1);
     }
     Vec3 unit_direction = unit_vector(r.direction());
-    auto t = 0.5 * (unit_direction.y() + 1.0);
+    t = 0.5 * (unit_direction.y() + 1.0);
     return (1.0 - t) * Color(1.0, 1.0, 1.0) + t * Color(0.5, 0.7, 1.0);
 }
 //----------------------------------------------------------------
