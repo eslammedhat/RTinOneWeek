@@ -74,15 +74,25 @@ bool ParameterHandler::isAspcetRatioLocked() const {
 }
 //----------------------------------------------------------------
 ParameterHandler::ErrorType ParameterHandler::parseParametrs(uint32_t argc, const char* const argv[]) {
+
     if (argc < 2) {
         return ErrorType::ERROR_OK;
     }
 
-    for (uint32_t arg = 1; arg < argc - 1; arg++) {
+    std::cout << "argc" << argc << std::endl;
+    for (uint32_t arg = 1; arg < argc; arg++) {
         std::string argument(argv[arg]);
         if ((argument == "-h") || (argument == "--help")) {
             printHelp();
             return ErrorType::ERROR_HELP;
+        }
+        else if ((argument == "-r") || (argument == "--resolution")) {
+            // TODO: check next arguments validity
+            arg++;
+            m_lcokedAspect = false;
+            m_imageWidth = std::stoi(argv[arg++]);
+            m_imageHeight = std::stoi(argv[arg]);
+            return ErrorType::ERROR_OK;
         }
         else {
             printHelp();
@@ -96,5 +106,9 @@ void ParameterHandler::printHelp() {
     cout << PROGRAM_NAME << " \"" << PROGRAM_DESCRIPTION << "\"" << "\n"
         << "Usage: rt [options]" << "\n"
         << "Options:" << "\n"
-        << "-h or --help" << "    " << "print help" << endl;
+        << "-h or --help :" << "\n"
+        << "    " << "help" << "\n"
+        << "-r or --resolution :" << "\n"
+        << "    " << "customize resolution. usage:" << "\n"
+        << "    " << "--resolution <width> <height>" << endl;
 }
