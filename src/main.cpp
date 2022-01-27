@@ -30,15 +30,16 @@ const char* PROGRAM_DESCRIPTION = "Ray Tracer";
 */
 double hit_sphere(const Point3& center, double radius, const Ray& r) {
     Vec3 oc = r.origin() - center;
-    auto a = dot(r.direction(), r.direction());
-    auto b = 2.0 * dot(oc, r.direction());
-    auto c = dot(oc, oc) - radius * radius;
-    auto discriminant = b * b - 4 * a * c;
-    // we won't worry about -ve value of t for now
-    if(discriminant < 0) {
+    auto a = r.direction().length_squared();
+    auto half_b = dot(oc, r.direction());
+    auto c = oc.length_squared() - radius*radius;
+    auto discriminant = half_b*half_b - a*c;
+
+    // We won't worry about -ve values for now.
+    if (discriminant < 0) {
         return -1.0;
     } else {
-        return (-b - sqrt(discriminant) ) / (2.0*a);
+        return (-half_b - sqrt(discriminant) ) / a;
     }
 }
 //----------------------------------------------------------------
